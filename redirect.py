@@ -7,7 +7,7 @@ session = requests.Session()
 
 
 if len(sys.argv) < 2:
-		sys.exit("Usage: python redirect.py uber.txt payloads.list")
+		sys.exit("Usage: python redirect.py uber.txt payloads.txt")
 		exit();
 		
 		
@@ -91,7 +91,7 @@ def main(urllist,payloadlist):
 						
 try:
 	main(urllist,payloadlist)
-	print "[*]Trying: "+urllist+" with payload file "+payloadlist+"[*]"
+	print "[*]Finished Every Payload.... No Open Redirect Found[*]"
 except Exception as e:
 		print (e)
 		print('Error: %s' % e)
