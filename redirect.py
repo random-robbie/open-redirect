@@ -22,8 +22,10 @@ def test_redirect(url,payload):
 	payload = payload.replace("example.com","redirect.xsses.rocks")
 	URL = ""+url+""+payload+""
 	response = session.get(URL, headers=headers, verify=False)
+	code = str(response.status_code)
+	rcode = code.startswith('3')
 	try:
-		if response.status_code == 303:
+		if rcode == True:
 			print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
 			print "[*]"+URL+"[*]"
 			print "\n\n\n\n"
@@ -31,14 +33,7 @@ def test_redirect(url,payload):
 			file.write(""+URL+"\n")
 			file.close() 
 		
-		if response.status_code == 302:
-			if payload in response.history[0].headers['Location']:
-				print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
-				print "[*]"+URL+"[*]"
-				print "\n\n\n\n"
-				file = open("found.txt","a") 
-				file.write(""+URL+"\n")
-				file.close() 
+		
 		if 'fc38f65c089c19c2c261c3d1e92c8e76' in response.content:
 			print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
 			print "[*]"+URL+"[*]"
