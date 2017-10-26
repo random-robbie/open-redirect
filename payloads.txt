@@ -3,6 +3,7 @@
 @https://www.google.com
 %2f%2e%2e
 crlftest%0dLocation:https://google.com
+/https:/%5cblackfan.ru/
 //example.com@google.com/%2f..
 ///google.com/%2f..
 ///example.com@google.com/%2f..
