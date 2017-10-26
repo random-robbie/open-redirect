@@ -13,5 +13,6 @@ pip install -r requirements
 
 How to run
 --------------
-
+```
 python redirect urls.txt payloads.txt
+```
