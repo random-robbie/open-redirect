@@ -16,3 +16,7 @@ How to run
 ```
 python redirect urls.txt payloads.txt
 ```
+
+the urls list must have full http:// or https:// domains and seperated on a new line.
+
+This will test each url with every payload and then write to found.txt when it finds an open redirect.
