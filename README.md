@@ -1,6 +1,12 @@
 # open-redirect
 Open Redirect Finder.
 
+
+Status
+------
+
+NOT WORKING AT THE MOMENT.
+
 Based on the idea from @ak1t4 and his script https://github.com/ak1t4/open-redirect-scanner
 
 Requirements
