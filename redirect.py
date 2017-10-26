@@ -1,5 +1,6 @@
 import requests
 import sys
+from time import sleep
 requests.packages.urllib3.disable_warnings()
 
 session = requests.Session()
@@ -19,17 +20,11 @@ def test_redirect(url,payload):
 	URL = ""+url+""+payload+""
 	response = session.get(URL, headers=headers, verify=False)
 	try:
-		if response.status_code == 303:
+		if response.history:
 			print "\n\n\n\n\n\n[*]Open Redirect Found[*]"
 			print "[*]"+URL+"[*]"
 			exit();
-		if response.status_code == 302:
-			if payload in response.headers['Location']:
-				print "\n\n\n\n\n\n[*]Open Redirect Found[*]"
-				print "[*]"+URL+"[*]"
-				exit();
-				
-			
+
 		else:
 			print "[*]Open Redirect NOT  Found for "+URL+" HTTP ["+str(response.status_code)+"][*]"
 	except requests.exceptions.MissingSchema:
@@ -57,7 +52,8 @@ def main(urllist,payloadlist):
 		print "[*] Open Redirect Finder By @Random_Robbie [*]"
 		print "[*] ***************************************[*]"
 		print "\n\n\n\n\n\n\n\n\n"
-		print "[*] Searching for Open Redirects [*]"
+		sleep (2)
+		print "[*] Searching for Open Redirects [*]\n\n"
 		for line in f:
 			line = line.replace("\r\n","")
 			line = line.replace ("\n","")
