@@ -1,6 +1,8 @@
-&%0d%0a1Location: https://google.com
+&%0d%0a1Location:https://google.com
 @google.com
 @https://www.google.com
+%2f%2e%2e
+crlftest%0dLocation:https://google.com
 //example.com@google.com/%2f..
 ///google.com/%2f..
 ///example.com@google.com/%2f..
