@@ -25,7 +25,7 @@
 import re
 
 from setuptools import find_packages, setup
-from acstis.helpers.PackageHelper import PackageHelper
+
 
 with open("requirements.txt") as file:
     requirements = file.read().splitlines()
