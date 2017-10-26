@@ -28,7 +28,7 @@ def test_redirect(url,payload):
 			print "[*]"+URL+"[*]"
 			print "\n\n\n\n"
 			file = open("found.txt","a") 
-			file.write(URL)
+			file.write(""+URL+"\n")
 			file.close() 
 		
 		if response.status_code == 302:
@@ -37,7 +37,7 @@ def test_redirect(url,payload):
 				print "[*]"+URL+"[*]"
 				print "\n\n\n\n"
 				file = open("found.txt","a") 
-				file.write(URL)
+				file.write(""+URL+"\n")
 				file.close() 
 
 
