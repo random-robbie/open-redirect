@@ -3,7 +3,7 @@ from packagename.version import Version
 
 
 setuptools.setup(name='Open Redirect Scanner',
-                 version=Version('1.0.0').number,
+                 version=Version('1.0.0'),
                  description='Open Redirect Scanner',
                  author='Random_Robbie',
                  author_email='txt3rob@gmail.com',
