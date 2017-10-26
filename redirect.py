@@ -20,10 +20,23 @@ def test_redirect(url,payload):
 	URL = ""+url+""+payload+""
 	response = session.get(URL, headers=headers, verify=False)
 	try:
-		if response.history:
-			print "\n\n\n\n\n\n[*]Open Redirect Found[*]"
+		if response.status_code == 303:
+			print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
 			print "[*]"+URL+"[*]"
+			print "\n\n\n\n"
+			file = open("found.txt","a") 
+			file.write(URL)
+			file.close() 
 			exit();
+		if response.status_code == 302:
+			if payload in response.history[0].headers['Location']:
+				print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
+				print "[*]"+URL+"[*]"
+				print "\n\n\n\n"
+				file = open("found.txt","a") 
+				file.write(URL)
+				file.close() 
+				exit();
 
 		else:
 			print "[*]Open Redirect NOT  Found for "+URL+" HTTP ["+str(response.status_code)+"][*]"
@@ -48,10 +61,11 @@ def test_redirect(url,payload):
 def main(urllist,payloadlist):
 
 	with open(urllist) as f:
+		print "\n\n\n\n"
 		print "[*] ***************************************[*]"
 		print "[*] Open Redirect Finder By @Random_Robbie [*]"
 		print "[*] ***************************************[*]"
-		print "\n\n\n\n\n\n\n\n\n"
+		print "\n\n"
 		sleep (2)
 		print "[*] Searching for Open Redirects [*]\n\n"
 		for line in f:
