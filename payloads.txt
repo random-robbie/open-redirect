@@ -1,4 +1,6 @@
 &%0d%0a1Location: https://google.com
+@google.com
+@https://www.google.com
 //example.com@google.com/%2f..
 ///google.com/%2f..
 ///example.com@google.com/%2f..
@@ -478,7 +480,6 @@ http://google.com\texample.com/
 //google.com\texample.com/
 //;@google.com
 http://;@google.com
-@google.com
 javascript://https://example.com/?z=%0Aalert(1)
 http://google.com%2f%2f.example.com/
 http://google.com%5c%5c.example.com/
