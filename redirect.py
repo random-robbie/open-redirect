@@ -1,10 +1,12 @@
-import requests
 import sys
+import subprocess
+import shlex
+import re
+import os
 from time import sleep
-requests.packages.urllib3.disable_warnings()
 
-session = requests.Session()
-
+CASPERJS_SCRIPT = "/root/testing/t.js" # this is the name of the script that casperjs should execute
+XVFB_RUN = "/usr/bin/xvfb-run"
 
 if len(sys.argv) < 2:
 		sys.exit("Usage: python redirect.py uber.txt payloads.txt")
@@ -14,51 +16,39 @@ if len(sys.argv) < 2:
 urllist = sys.argv[1]
 payloadlist = sys.argv[2]
 
+
+
+def log_results(URL,result):
+		print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
+		print "[*]"+URL+"[*]"
+		print "[*]Redirects to: "+result+"[*]"
+		print "\n\n\n\n"
+		file = open("found.txt","a") 
+		file.write(""+URL+"\n")
+		file.close() 
+
 def test_redirect(url,payload):
 
-	headers = {"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0","Connection":"close","Accept-Language":"en-US,en;q=0.5","Accept-Encoding":"gzip, deflate"}
 	exmp = url.replace("https://","")
 	exmp = exmp.replace("http://","")
 	payload = payload.replace("example.com","redirect.xsses.rocks")
 	URL = ""+url+""+payload+""
-	response = session.get(URL, headers=headers, verify=False)
-	code = str(response.status_code)
-	rcode = code.startswith('3')
-	try:
-		if rcode == True:
-			print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
-			print "[*]"+URL+"[*]"
-			print "\n\n\n\n"
-			file = open("found.txt","a") 
-			file.write(""+URL+"\n")
-			file.close() 
-		
-		
-		if 'fc38f65c089c19c2c261c3d1e92c8e76' in response.content:
-			print "\n\n\n\n\n\n[*]*****Open Redirect Found*****[*]"
-			print "[*]"+URL+"[*]"
-			print "\n\n\n\n"
-			file = open("found.txt","a") 
-			file.write(""+URL+"\n")
-			file.close() 
+	cmd = ""+XVFB_RUN+" -a casperjs "+CASPERJS_SCRIPT+""
+	args = shlex.split(cmd)
+	args.append(URL)
+	stdout_as_string = subprocess.check_output(args).decode('utf-8')
+	result = re.sub(r'\x1b\[[\d;]+m', '', stdout_as_string)
+	result = result.encode('ascii','ignore')
+	result = result.replace("\n","")
+	found = False
+	if result.startswith(("http://google.com","https://google.com","http://redirect.xsses.rocks","https://redirect.xsses.rocks")) == True:
+		log_results(URL,result)
+		found = True
+	
+	
 
-
-		else:
-			print "[*]Open Redirect NOT  Found for "+URL+" HTTP ["+str(response.status_code)+"][*]"
-	except requests.exceptions.MissingSchema:
-		print("*] You forgot the protocol. http://, https://, [*]")
-	except requests.exceptions.ConnectionError:
-		print("*] Sorry, but I couldn't connect. There was a connection problem. [*]")
-		pass
-	except requests.exceptions.Timeout:
-		print("*] Sorry, but I couldn't connect. I timed out. [*]")
-		pass
-	except requests.exceptions.TooManyRedirects:
-		print("*] There were too many redirects.  I can't count that high. [*]")
-		pass
-	except Exception as e:
-		print("*] Debug: "+e+" [*]")
-		pass
+	if found == False:
+		print "[*]Open Redirect NOT  Found for "+URL+"[*]"
 
 		
 
@@ -66,6 +56,7 @@ def test_redirect(url,payload):
 def main(urllist,payloadlist):
 
 	with open(urllist) as f:
+		os.system('clear')
 		print "\n\n\n\n"
 		print "[*] ***************************************[*]"
 		print "[*] Open Redirect Finder By @Random_Robbie [*]"
