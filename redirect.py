@@ -5,8 +5,8 @@ import re
 import os
 from time import sleep
 
-CASPERJS_SCRIPT = "redirect.js" 
-XVFB_RUN = "/usr/bin/xvfb-run" #Location of XVFB to run headless
+CASPERJS_SCRIPT = "/root/testing/t.js" # this is the name of the script that casperjs should execute
+XVFB_RUN = "/usr/bin/xvfb-run"
 
 if len(sys.argv) < 2:
 		sys.exit("Usage: python redirect.py uber.txt payloads.txt")
@@ -33,7 +33,10 @@ def test_redirect(url,payload):
 	exmp = exmp.replace("http://","")
 	payload = payload.replace("example.com","redirect.xsses.rocks")
 	URL = ""+url+""+payload+""
-	cmd = ""+XVFB_RUN+" -a casperjs "+CASPERJS_SCRIPT+""
+	if "DOCKER" in os.environ:
+		cmd = "casperjs "+CASPERJS_SCRIPT+""
+	else:
+		cmd = ""+XVFB_RUN+" -a casperjs "+CASPERJS_SCRIPT+""
 	args = shlex.split(cmd)
 	args.append(URL)
 	stdout_as_string = subprocess.check_output(args).decode('utf-8')
