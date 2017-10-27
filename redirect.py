@@ -5,8 +5,8 @@ import re
 import os
 from time import sleep
 
-CASPERJS_SCRIPT = "/root/testing/t.js" # this is the name of the script that casperjs should execute
-XVFB_RUN = "/usr/bin/xvfb-run"
+CASPERJS_SCRIPT = "redirect.js" 
+XVFB_RUN = "/usr/bin/xvfb-run" #Location of XVFB to run headless
 
 if len(sys.argv) < 2:
 		sys.exit("Usage: python redirect.py uber.txt payloads.txt")
