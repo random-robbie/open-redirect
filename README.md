@@ -22,8 +22,11 @@ apt-get install -y nodejs
 ```
 
 
+
+Normal Requirements
+
 ```
-apt-get install phantomjs -y
+apt-get install phantomjs xvfb -y
 npm -g install casperjs
 ```
 
