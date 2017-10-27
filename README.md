@@ -33,8 +33,10 @@ npm -g install casperjs
 
 How to run
 --------------
+
+
 ```
-python redirect urls.txt payloads.txt
+python redirect.py urls.txt payloads.txt
 ```
 
 the urls list must have full http:// or https:// domains and seperated on a new line.
