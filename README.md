@@ -2,6 +2,8 @@
 Open Redirect Finder.
 
 
+[![Capture.png](https://s1.postimg.org/88l48isty7/Capture.png)](https://postimg.org/image/5dsg2qdn6j/)
+
 Status
 ------
 
