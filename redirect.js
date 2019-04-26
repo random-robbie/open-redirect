@@ -16,7 +16,6 @@ function getTitle() {
 };
 casper.start(casper.cli.get(0), function() {
      this.echo('' + this.getCurrentUrl(), 'COMMENT');
-     process.exit();
  
 });
  
