@@ -83,6 +83,14 @@ https://target.com/forward?dest=
 - Successful redirects are logged to `found.txt`
 - Console output shows real-time testing progress
 
+### How Detection Works
+
+The tool identifies successful open redirects by checking if the final URL starts with common test domains:
+- `http://google.com` or `https://google.com`
+- `http://example.com` or `https://example.com`
+
+You can modify the payloads.txt file to use your own test domains as needed.
+
 
 
 

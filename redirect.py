@@ -25,9 +25,6 @@ def log_results(URL, result):
 		file.write(URL + "\n") 
 
 def test_redirect(url, payload):
-	exmp = url.replace("https://", "")
-	exmp = exmp.replace("http://", "")
-	payload = payload.replace("example.com", "redirect.xsses.rocks")
 	URL = url + payload
 
 	if "DOCKER" in os.environ:
@@ -42,7 +39,8 @@ def test_redirect(url, payload):
 	result = result.strip()
 	found = False
 
-	if result.startswith(("http://google.com", "https://google.com", "http://redirect.xsses.rocks", "https://redirect.xsses.rocks")):
+	# Check if redirect was successful to common test domains
+	if result.startswith(("http://google.com", "https://google.com", "http://example.com", "https://example.com")):
 		log_results(URL, result)
 		found = True
 
