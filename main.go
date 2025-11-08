@@ -14,6 +14,7 @@ import (
 
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
+	"github.com/schollz/progressbar/v3"
 )
 
 const (
@@ -170,22 +171,47 @@ func main() {
 		close(results)
 	}()
 
+	// Create progress bar
+	totalTests := len(urls) * len(payloads)
+	bar := progressbar.NewOptions(totalTests,
+		progressbar.OptionEnableColorCodes(true),
+		progressbar.OptionShowCount(),
+		progressbar.OptionSetWidth(50),
+		progressbar.OptionSetDescription("[cyan][*][reset] Testing URLs..."),
+		progressbar.OptionSetTheme(progressbar.Theme{
+			Saucer:        "[green]=[reset]",
+			SaucerHead:    "[green]>[reset]",
+			SaucerPadding: " ",
+			BarStart:      "[",
+			BarEnd:        "]",
+		}),
+		progressbar.OptionOnCompletion(func() {
+			fmt.Println()
+		}),
+	)
+
 	// Collect results
 	var allResults []Result
 	vulnerableCount := 0
 	for result := range results {
+		bar.Add(1)
+
 		if result.IsVulnerable {
 			vulnerableCount++
 			allResults = append(allResults, result)
 			if !jsonOutput {
+				// Clear progress bar line, print result, redraw progress bar
+				fmt.Print("\r\033[K")
 				logVulnerability(result)
 			}
 		} else if verbose {
 			if !jsonOutput {
+				fmt.Print("\r\033[K")
 				fmt.Printf("[*] Not vulnerable: %s\n", result.TestURL)
 			}
 		}
 	}
+	bar.Finish()
 
 	endTime := time.Now()
 

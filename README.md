@@ -15,6 +15,7 @@ A fast, modern open redirect vulnerability scanner written in Go using ChromeDP 
 - **Authentication Support**: Test authenticated endpoints with cookies and custom headers
 - **JSON Output**: Structured output format for integration with other tools
 - **Proxy Support**: Route traffic through HTTP/HTTPS/SOCKS5 proxies
+- **Progress Bar**: Real-time visual progress indicator during scans
 - **Simple**: Easy to use CLI interface
 
 ## 📋 About
@@ -169,25 +170,38 @@ You can modify the `testDomains` variable in `main.go` to add your own test doma
 
 ### Console Output
 
+The tool features a real-time progress bar that shows scan progress:
+
 ```
 [*] ***************************************[*]
 [*] Open Redirect Finder By @Random_Robbie [*]
 [*]         Rewritten in Go + ChromeDP      [*]
 [*] ***************************************[*]
 
+[*] Test domains: [http://google.com https://google.com http://example.com https://example.com]
 [*] Loaded 10 URLs and 504 payloads
 [*] Using 5 concurrent workers
 [*] Starting scan...
 
+[*] Testing URLs... [=====>           ] 35% (1764/5040)
 
 [*]*****Open Redirect Found*****[*]
 [*] https://vulnerable.com/redirect?url=//google.com [*]
 [*] Redirects to: https://google.com [*]
+[*] Timestamp: 2024-01-15T10:32:15Z [*]
+
+[*] Testing URLs... [==================>] 100% (5040/5040)
 
 [*] Scan complete!
 [*] Found 3 vulnerable URLs
 [*] Results saved to: found.txt
 ```
+
+The progress bar displays:
+- Current completion percentage
+- Number of tests completed vs total
+- Visual progress indicator with color coding
+- Automatically clears when printing vulnerability findings
 
 ### Output File (`found.txt`)
 
@@ -463,13 +477,14 @@ go build -o open-redirect main.go
 - [x] Implement authentication support (cookies, headers) ✅
 - [x] Add JSON output format ✅
 - [x] Support for proxy configuration ✅
+- [x] Add progress bar for long scans ✅
 - [ ] Create comprehensive test suite
 - [ ] Add rate limiting options
 - [ ] Add CI/CD pipeline
 - [ ] Performance benchmarking
 - [ ] Support for loading cookies/headers from file
-- [ ] Add progress bar for long scans
 - [ ] Implement retry logic for failed requests
+- [ ] Add option to disable progress bar for CI/CD
 
 ## 📜 License
 
