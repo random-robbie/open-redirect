@@ -1,0 +1,40 @@
+# Git files
+.git
+.gitignore
+
+# Documentation
+README.md
+CONTRIBUTING.md
+LICENSE
+
+# Output files
+found.txt
+*.log
+
+# Data directory (mounted as volume)
+data/
+
+# Build artifacts
+open-redirect
+*.exe
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python files (legacy)
+*.pyc
+__pycache__/
+redirect.py
+requirements.txt
+
+# Node.js files (legacy)
+node_modules/
+redirect.js

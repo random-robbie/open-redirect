@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  open-redirect:
+    build: .
+    container_name: open-redirect-scanner
+    volumes:
+      # Mount local data directory for input/output files
+      - ./data:/app/data
+    environment:
+      # Optional: Adjust these via environment variables
+      - WORKERS=5
+      - TIMEOUT=30
+    # Override default command with custom arguments if needed
+    # command: ["-urls", "/app/data/urls.txt", "-payloads", "/app/payloads.txt", "-output", "/app/data/found.txt", "-workers", "10", "-verbose"]
