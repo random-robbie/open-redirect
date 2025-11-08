@@ -11,6 +11,10 @@ A fast, modern open redirect vulnerability scanner written in Go using ChromeDP 
 - **Docker Support**: Pre-configured Docker setup for easy deployment
 - **Customizable**: Flexible payload lists and configurable options
 - **Real Browser**: Uses actual Chrome for accurate redirect detection
+- **Custom Test Domains**: Specify your own domains for redirect detection
+- **Authentication Support**: Test authenticated endpoints with cookies and custom headers
+- **JSON Output**: Structured output format for integration with other tools
+- **Proxy Support**: Route traffic through HTTP/HTTPS/SOCKS5 proxies
 - **Simple**: Easy to use CLI interface
 
 ## 📋 About
@@ -124,6 +128,11 @@ go build -o open-redirect main.go
 | `-workers` | `5` | Number of concurrent workers |
 | `-timeout` | `30` | Timeout in seconds for each request |
 | `-verbose` | `false` | Enable verbose output |
+| `-json` | `false` | Output results in JSON format |
+| `-domains` | *(default list)* | Comma-separated list of custom test domains |
+| `-cookies` | *(none)* | Cookies in format 'name1=value1; name2=value2' |
+| `-headers` | *(none)* | Custom headers in format 'Header1: Value1; Header2: Value2' |
+| `-proxy` | *(none)* | Proxy URL (e.g., 'http://proxy.example.com:8080') |
 
 ## 📝 Input Files
 
@@ -233,6 +242,144 @@ echo "//your-domain.com" >> payloads.txt
 ./open-redirect -urls urls.txt -verbose
 ```
 
+### Custom Test Domains
+
+By default, the tool checks for redirects to `google.com` and `example.com`. You can specify your own test domains:
+
+```bash
+# Use custom domains for detection
+./open-redirect \
+  -urls urls.txt \
+  -domains "https://evil.com,http://attacker.com,https://test.com"
+```
+
+This is useful when:
+- Testing with your own controlled domains
+- Verifying specific redirect targets
+- Using domains you control for bug bounty testing
+
+### JSON Output Format
+
+Generate structured JSON output for integration with other tools:
+
+```bash
+# Output results in JSON format
+./open-redirect -urls urls.txt -json -output results.json
+```
+
+JSON output includes:
+- Scan metadata (start time, end time, total tests)
+- Complete results with timestamps
+- Structured data for easy parsing
+
+Example JSON output:
+```json
+{
+  "scan_info": {
+    "start_time": "2024-01-15T10:30:00Z",
+    "end_time": "2024-01-15T10:35:00Z",
+    "total_tests": 5040,
+    "vulnerable_count": 3
+  },
+  "results": [
+    {
+      "test_url": "https://example.com/redirect?url=//google.com",
+      "final_url": "https://google.com",
+      "vulnerable": true,
+      "timestamp": "2024-01-15T10:32:15Z"
+    }
+  ]
+}
+```
+
+### Authentication Support
+
+#### Using Cookies
+
+Test authenticated endpoints by providing session cookies:
+
+```bash
+# Single cookie
+./open-redirect \
+  -urls urls.txt \
+  -cookies "session=abc123def456"
+
+# Multiple cookies
+./open-redirect \
+  -urls urls.txt \
+  -cookies "session=abc123; csrf_token=xyz789; user_id=12345"
+```
+
+#### Using Custom Headers
+
+Add custom HTTP headers for authentication or other purposes:
+
+```bash
+# Single header
+./open-redirect \
+  -urls urls.txt \
+  -headers "Authorization: Bearer token123"
+
+# Multiple headers
+./open-redirect \
+  -urls urls.txt \
+  -headers "Authorization: Bearer token123; X-API-Key: key456; X-Custom: value"
+```
+
+#### Combined Authentication
+
+Use both cookies and headers together:
+
+```bash
+./open-redirect \
+  -urls urls.txt \
+  -cookies "session=abc123; user=admin" \
+  -headers "Authorization: Bearer token123; X-CSRF-Token: xyz789"
+```
+
+### Proxy Support
+
+Route traffic through a proxy for:
+- Corporate network requirements
+- Additional anonymity
+- Traffic inspection/debugging
+
+```bash
+# HTTP proxy
+./open-redirect \
+  -urls urls.txt \
+  -proxy "http://proxy.company.com:8080"
+
+# HTTPS proxy
+./open-redirect \
+  -urls urls.txt \
+  -proxy "https://secure-proxy.com:443"
+
+# SOCKS5 proxy
+./open-redirect \
+  -urls urls.txt \
+  -proxy "socks5://127.0.0.1:1080"
+```
+
+### Combined Advanced Example
+
+Using all features together:
+
+```bash
+./open-redirect \
+  -urls urls.txt \
+  -payloads custom-payloads.txt \
+  -output results.json \
+  -workers 15 \
+  -timeout 45 \
+  -json \
+  -verbose \
+  -domains "https://attacker.com,http://evil.com" \
+  -cookies "session=abc123; user=admin" \
+  -headers "Authorization: Bearer token123; X-API-Key: key456" \
+  -proxy "http://proxy.company.com:8080"
+```
+
 ## 🛡️ Security & Legal Notice
 
 **⚠️ IMPORTANT:** This tool is designed for authorized security testing only.
@@ -312,14 +459,17 @@ go build -o open-redirect main.go
 
 ## 📝 To Do
 
-- [ ] Add support for custom test domains via CLI flag
-- [ ] Implement authentication support (cookies, headers)
-- [ ] Add JSON output format
+- [x] Add support for custom test domains via CLI flag ✅
+- [x] Implement authentication support (cookies, headers) ✅
+- [x] Add JSON output format ✅
+- [x] Support for proxy configuration ✅
 - [ ] Create comprehensive test suite
 - [ ] Add rate limiting options
-- [ ] Support for proxy configuration
 - [ ] Add CI/CD pipeline
 - [ ] Performance benchmarking
+- [ ] Support for loading cookies/headers from file
+- [ ] Add progress bar for long scans
+- [ ] Implement retry logic for failed requests
 
 ## 📜 License
 
