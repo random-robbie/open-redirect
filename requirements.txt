@@ -1,6 +1,0 @@
-# Python dependencies for Open Redirect Finder
-#
-# Note: This tool primarily uses CasperJS (installed via npm)
-# Python standard library modules are sufficient for core functionality
-#
-# No additional Python packages required at this time

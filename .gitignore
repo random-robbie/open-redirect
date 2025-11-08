@@ -1,0 +1,28 @@
+# Binaries
+open-redirect
+open-redirect.exe
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test and output files
+found.txt
+urls.txt
+*.log
+data/
+
+# Go test files
+*.test
+*.out
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
