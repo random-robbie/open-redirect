@@ -9,7 +9,7 @@ A fast, modern open redirect vulnerability scanner written in Go using ChromeDP 
 - **Modern Stack**: Built with Go and ChromeDP (headless Chrome)
 - **Fast Scanning**: Concurrent workers for parallel testing
 - **Docker Support**: Pre-configured Docker setup for easy deployment
-- **Customizable**: Flexible payload lists and configurable options
+- **Customisable**: Flexible payload lists and configurable options
 - **Real Browser**: Uses actual Chrome for accurate redirect detection
 - **Custom Test Domains**: Specify your own domains for redirect detection
 - **Authentication Support**: Test authenticated endpoints with cookies and custom headers
@@ -50,10 +50,8 @@ The tool:
 
 2. **Create your URLs file**
    ```bash
-   # Copy the example file
-   cp data/urls.txt.example data/urls.txt
-
-   # Edit with your target URLs
+   # Create the data directory and add your target URLs
+   mkdir -p data
    nano data/urls.txt
    ```
 
@@ -164,7 +162,7 @@ The tool identifies successful open redirects by checking if the final URL start
 - `http://google.com` or `https://google.com`
 - `http://example.com` or `https://example.com`
 
-You can modify the `testDomains` variable in `main.go` to add your own test domains.
+You can supply your own test domains with the `-domains` flag, or modify the `testDomains` variable in `main.go`.
 
 ## 📤 Output
 
@@ -215,13 +213,15 @@ https://target.com/forward?dest=https://example.com
 
 ### Environment Variables (Docker)
 
-You can set environment variables in `docker-compose.yml`:
+The provided `docker-compose.yml` defines `WORKERS` and `TIMEOUT` environment variables:
 
 ```yaml
 environment:
   - WORKERS=10
   - TIMEOUT=60
 ```
+
+Note that these are not currently read by the binary — pass the `-workers` and `-timeout` flags in the compose command instead if you need to change them.
 
 ### Custom Payloads
 
@@ -396,15 +396,15 @@ Using all features together:
 
 ## 🛡️ Security & Legal Notice
 
-**⚠️ IMPORTANT:** This tool is designed for authorized security testing only.
+**⚠️ IMPORTANT:** This tool is designed for authorised security testing only.
 
 - ✅ Only test applications you own or have explicit written permission to test
-- ✅ Use for bug bounty programs with proper authorization
+- ✅ Use for bug bounty programmes with proper authorisation
 - ✅ Use for penetration testing engagements
-- ❌ Unauthorized testing may be illegal in your jurisdiction
+- ❌ Unauthorised testing may be illegal in your jurisdiction
 - ❌ The authors are not responsible for misuse of this tool
 
-Always ensure you have proper authorization before testing any application.
+Always ensure you have proper authorisation before testing any application.
 
 ## 🐛 Troubleshooting
 
@@ -502,6 +502,14 @@ See [LICENSE](LICENSE) file for details.
 - [OWASP Open Redirect](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)
 - [ChromeDP Documentation](https://pkg.go.dev/github.com/chromedp/chromedp)
 - [Open Redirect Testing Guide](https://portswigger.net/kb/issues/00500100_open-redirection-reflected)
+
+## Disclaimer / Authorised Use
+
+This tool is provided for authorised security testing and responsible disclosure only. Do not use it against systems you do not own or have explicit permission to test.
+
+## Author
+
+Robbie Wiggins — [What-Security](https://www.what-security.co.uk) · [GitHub](https://github.com/random-robbie)
 
 ---
 
